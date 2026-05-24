@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>歌品性张力鉴定</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="hero" id="introScreen">
+        <div class="brand">RAP TASTE TEST</div>
+        <h1>歌品性张力鉴定</h1>
+        <p class="lead">
+          10 道题，按你的歌品和约会表现给你判个型。别装理客中，这玩意不讲科学，讲的是你身上那点藏不住的审美案底。
+        </p>
+        <div class="hero-actions">
+          <button class="primary-btn" id="startBtn">开始鉴定</button>
+        </div>
+      </section>
+
+      <section class="quiz hidden" id="quizScreen" aria-live="polite">
+        <header class="quiz-header">
+          <button class="ghost-btn" id="backBtn" aria-label="上一题">←</button>
+          <div class="progress-wrap">
+            <div class="progress-meta">
+              <span id="questionIndex">01</span>
+              <span>10</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+          </div>
+        </header>
+
+        <article class="question-card">
+          <p class="question-kicker" id="questionTag">SCENE 01</p>
+          <h2 id="questionText"></h2>
+          <div class="options" id="options"></div>
+        </article>
+      </section>
+
+      <section class="result hidden" id="resultScreen">
+        <div class="result-top">
+          <button class="ghost-btn" id="restartBtn">重测</button>
+        </div>
+        <article class="result-card">
+          <div class="result-hero">
+            <p class="result-label" id="resultRank"></p>
+            <h2 id="resultTitle"></h2>
+            <div class="score-line">
+              <span>性张力指数</span>
+              <strong id="resultScore"></strong>
+            </div>
+          </div>
+          <p class="result-copy" id="resultCopy"></p>
+          <div class="result-grid">
+            <div class="profile">
+              <h3>人物/伴侣画像</h3>
+              <p id="profileText"></p>
+            </div>
+            <div class="verdict">
+              <h3>鉴定意见</h3>
+              <p id="resultVerdict"></p>
+            </div>
+            <div class="mix-box">
+              <div>
+                <span>混合嫌疑</span>
+                <strong id="runnerUp"></strong>
+              </div>
+              <p id="comboComment"></p>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
