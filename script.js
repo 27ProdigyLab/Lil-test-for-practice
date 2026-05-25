@@ -1,206 +1,376 @@
-const CATEGORIES = {
-  drake: {
-    rank: "S 级",
-    title: "Drake 型：性张力答案，别碰瓷",
-    score: 99,
-    short: "Drake 正规军",
+const TYPE_ORDER = [
+  "pb",
+  "tumblr",
+  "neo",
+  "shoegaze",
+  "altmetal",
+  "sleaze",
+  "abstract",
+  "experimental",
+  "postrock",
+  "oldschool",
+];
+
+const TYPES = {
+  pb: {
+    name: "PB R&B / Urban",
+    level: 10,
     copy:
-      "这档就是版本答案。\n\n你可以说他油，说他商业，说他装深情。都行。问题是人家真有用。女的真吃，夜店真放，前任真破防，男的嘴上骂，私底下还学他发消息。\n\n你不是地下，不文艺，不装怪。你就是知道怎么让人上头。别人还在研究歌单显不显得高级，你已经知道什么时候该靠近、什么时候该撤、什么时候该装作刚好想到对方。",
-    verdict: "鉴定：性张力正规军。渣也渣得有市场，油也油得能卖票。",
-    profile:
-      "伴侣画像：最适合那种嘴上骂你油、身体很诚实的人。TA 一边说“你少来这套”，一边等你下一句。你俩吵架像写歌，和好像巡演加场。",
+      "判了，你是拿歌撬门的惯犯。别人发歌是分享，你发歌是下钩；别人研究专辑封面，你研究几点发歌能把人钓到楼下。你不一定最有品，但你真能谈上。半夜一句“这首适合你”发出去，对方嘴上骂你油，手已经开始回消息。你这种人最恶心的地方是，招数低级但有效，跟夜市烤肠一样，知道不健康但就是有人买。",
+    subNote: "副类型说明你还不止会撩，坏水里还加了料。聊天框一打开，空气里都有点不正经。",
+    partners: ["neo", "tumblr", "shoegaze"],
+    enemies: ["oldschool", "experimental", "postrock"],
+    advice:
+      "少批发你的荷尔蒙。你这套半夜发歌、撤回消息、装可怜的烂招确实有用，但用多了就像小区门口办卡健身房，嘴上说长期陪伴，实际全是套路。你要真想谈人，就别把每个暧昧对象都当客户维护。开房前少讲流程，接吻前少演深情，多说两句真话。不然你床边热闹，心里冷清，最后只剩一堆聊天记录给你自己复盘。",
   },
-  rage: {
-    rank: "A 级",
-    title: "Rage/Opium 新地下：土狗吃上版本红利",
-    score: 88,
-    short: "Rage 土狗红利",
+  tumblr: {
+    name: "Indie Rock / Tumblr 遗老",
+    level: 9,
     copy:
-      "别装了。\n\n你不是品味高，你就是土狗土到点上了。这几年审美正好抽风，OD 妹、县城酷妹、短视频潮流女、亚文化小孩就吃你这套：裤子大，头发乱，说话含糊，头像黑得看不清脸，歌单全是爆音。\n\n放十年前这叫非主流小登，放现在叫有 aura。不是你进步了，是版本环境疯了。你站那儿别说话就行，一开口反而容易露馅。",
-    verdict: "鉴定：不是会撩，是刚好撞上审美洼地。土得精准，也算本事。",
-    profile:
-      "伴侣画像：容易吸到爱说“他好特别”的小女孩。她以为你是危险人物，实际你只是作息烂、嘴笨、手机快没电。",
+      "你是旧账专业户。歌单里全是吉他苦情歌，朋友圈三天可见，半夜发一首歌就等人来问“怎么了”。你以为自己是忘不掉的前任，其实更多时候是酒后翻聊天记录的倒霉演员。最典的是：人还没约出来，你已经在脑子里分手三回了。裤腰带没松，遗憾先上桌；手还没牵，分手感言已经写完。",
+    subNote: "副类型说明你演法还挺多，不止一套戏服。别人想暧昧，你先开追悼会。",
+    partners: ["pb", "shoegaze", "sleaze"],
+    enemies: ["oldschool", "postrock", "abstract"],
+    advice:
+      "别再搞前任售后了。你关系还没开始，就先把遗憾、旧歌、半夜emo全摆出来，跟在烧烤摊支了个情感灵堂似的。这样确实能骗到几个爱吃苦的人，但也很容易把接吻前的气氛整成分手后复盘。少发苦歌，多说人话；少装没放下，多承认你就是想被哄、想上头、想有人半夜回你。你不是不能谈，你是戏太多，床边都被你演成法事现场。",
+  },
+  neo: {
+    name: "Neo Soul / Jazz Adjacent",
+    level: 9,
+    copy:
+      "你是少数能正常办事的人。别人忙着装怪、装冷、装听得懂，你已经把吃饭、喝酒、散步、要不要上楼安排明白。你不靠邪门歌单吓人，也不靠老专辑装爹，你靠正常说话赢。最离谱的是，正常在这帮人里居然成了稀缺资源。你不是最骚的，但你最不容易在临门一脚前把人聊跑。",
+    subNote: "副类型说明你稳里还有点偏门味，但至少不会在床边突然开课，谢天谢地。",
+    partners: ["pb", "tumblr", "abstract"],
+    enemies: ["altmetal", "oldschool", "experimental"],
+    advice:
+      "你别稳成死人。你已经比那帮拿歌单装身份证的人强太多了，没必要再端着。该约就约，该夸就夸，该靠近就靠近。成熟不是把暧昧聊成物业通知，也不是把欲望按进保温杯里。成年人谈喜欢，礼貌只能打底，真正有用的是让对方知道你想见、想亲、想把歌单放到床边继续听。稳可以，别稳到对方怀疑自己在跟客服聊天。",
+  },
+  shoegaze: {
+    name: "Shoegaze / Dream Pop",
+    level: 8,
+    copy:
+      "你是糊图诈骗犯。人声要远，封面要糊，朋友圈要少字，主打一个“不说清楚让别人自己脑补”。这套确实能骗到人，尤其骗到那种爱给别人加戏的。问题是你一说多就露馅，灯一开就尴尬。你不是多有魅力，你是会把自己藏起来。真到床边还装没听懂，对方只想开灯验货，看你到底是有张力还是纯不会说话。",
+    subNote: "副类型说明你包装下面还有别的毛病。拆开以后不一定惊喜，也可能是漏汤外卖。",
+    partners: ["tumblr", "pb", "abstract", "altmetal"],
+    enemies: ["oldschool", "experimental"],
+    advice:
+      "你少说两句就是积德。你这套靠糊图、轻歌、短句还能撑一会儿，一旦开始解释，立刻从暧昧对象变成产品说明书。半夜能发歌就别发小作文，能靠近就别绕三条街。最怕对方裤腰带都等松了，你还在装“我只是分享一首歌”。别装了，成年人谁不懂。真想要就往前一步，别把暧昧拖成猜谜晚会。",
+  },
+  altmetal: {
+    name: "Alt Metal / Deftones 系",
+    level: 8,
+    copy:
+      "你是重口硬菜。别人约会放歌想顺一点，你放歌恨不得把杯子震下桌。吃你这口的人会很上头，不吃你这口的人只想报警说这里有人情绪超载。你不是不好，你是太冲。亲热可以有劲，聊天别一上来就压人。人家是来暧昧，不是来参加低频抗压训练。你这类最怕半夜上头，发歌、发疯、发完还觉得自己挺性感。",
+    subNote: "副类型说明你不只是口重，还容易把那股冲劲带进聊天框。带感是真带感，吓人也是真吓人。",
+    partners: ["shoegaze", "tumblr", "postrock"],
+    enemies: ["pb", "neo", "oldschool"],
+    advice:
+      "你别把每次暧昧都搞成拆迁现场。歌重可以，人别句句都冲。不是所有人第一次见面就想被你压得喘不过气，大家出来是约会，不是来签生死状。床边可以猛一点，聊天先像个人一点。能把音量开大的人很多，能把人哄近的人更少。别总一副要狠狠干一架的样子，对方还没上头，先被你吓醒了。",
+  },
+  sleaze: {
+    name: "Indie Sleaze / Post Punk",
+    level: 8,
+    copy:
+      "你是臭架子批发户。歌单要硬，脸要臭，话要少，最好别人一靠近就感觉自己不配。穿好了确实能唬人，穿不好就是低配酒吧门口卖电子烟的，还嫌路人土。你不是没性张力，是太容易把性张力活成欠抽。最要命的是，床边还没到，你已经把对方从歌品、穿搭、朋友圈点评一遍，兴趣直接死在半路。",
+    subNote: "副类型说明你不只爱摆谱，还能换角度摆。摆到最后，对方只想穿衣服走人。",
+    partners: ["tumblr", "neo", "shoegaze"],
+    enemies: ["abstract", "postrock", "oldschool"],
+    advice:
+      "你可以挑，但别挑到全世界都欠你钱。最怕的不是你嘴欠，是你歌单和穿搭一旦没撑住，那股拽劲就变成廉价装逼。你要真想让人上头，就把要求留给自己，把基本礼貌留给别人。别床都没上先开始审核别人，别亲都没亲先给人打分。你以为自己在筛人，其实别人早把你扔进“难搞还不一定好用”的垃圾桶了。",
   },
   abstract: {
-    rank: "B 级",
-    title: "Abstract Rap：阴湿自我感动专柜",
-    score: 73,
-    short: "Abstract 阴湿专柜",
+    name: "Abstract Rap",
+    level: 7,
     copy:
-      "这档最烦。\n\n一群人听点鼓都没有的歌，就开始觉得自己比别人多活一层。别人问你吃没吃饭，你能扯到原生家庭。别人约你出来玩，你说最近状态不太稳定。别人说想听点开心的，你放一首像没睡醒的人在被窝里念遗书的歌。\n\n你有一点性张力，主要骗刚认识你的人。人家以为你沉稳、敏感、有故事。熟了以后发现，不是有故事，是事多。",
-    verdict: "鉴定：短期能骗，长期折磨。你不是深情，你是阴。",
-    profile:
-      "伴侣画像：最容易吸到拯救欲很重的人。TA 前三天觉得你有灵魂，第三周开始怀疑自己是不是在免费实习心理咨询。",
+      "你是自我剖白批发商。歌里鼓点少、字多、人还丧，你听完就开始觉得自己很复杂。别人问你在干嘛，你回一篇小作文；别人约你吃饭，你先讲自己不适合亲密关系。说白了，你不是深，你是事多。别人都准备接吻了，你开始解释创伤来源；裤腰带还没碰，你先把人聊萎。你这种人最大本事，就是把欲望聊成病例。",
+    subNote: "副类型说明你不只是想太多，还爱现场朗读。成人关系里，这叫人工败火。",
+    partners: ["shoegaze", "neo", "postrock"],
+    enemies: ["pb", "tumblr", "oldschool"],
+    advice:
+      "先学会回一句短的。人家问你吃了没，不是在请你交个人说明书；人家说想见你，也不是让你开创伤发布会。成人暧昧有时候就很简单：想见就约，想亲就靠近，想上头就别先写八百字免责声明。你最该戒的不是某种歌，是那股把简单事情讲到所有人性冷淡的劲。少剖，少绕，少把床边气氛变成心理咨询候诊室。",
   },
-  griselda: {
-    rank: "C 级",
-    title: "Griselda/Street Rap：硬装懂哥批发市场",
-    score: 66,
-    short: "Griselda 硬装懂哥",
+  experimental: {
+    name: "Experimental Electronic",
+    level: 6,
     copy:
-      "你们这档确实有品，但也确实烦。\n\n天天 drumless，天天 coke rap，天天 Alchemist。鼓一进你嫌俗，副歌一来你嫌商业，别人说不好听你说人家不懂。\n\n你有性张力，但受众很窄。能精准打击那种穿黑色长大衣、喝冰美式、朋友圈发楼梯和烟灰缸的女的。正常人看你，只觉得你像个开口就要讲黑胶压盘版本区别的二手店老板。",
-    verdict: "鉴定：小众有效，大众避雷。你不是硬，你是装得累。",
-    profile:
-      "伴侣画像：适合黑衣服、冷脸、看展不拍人只拍墙的对象。两个人坐一起不说话，看着像约会，其实像二手店合伙人谈库存。",
+      "你是设备故障爱好者。别人听歌图个爽，你听歌图个“谁能坚持到第二分钟”。你以为这是门槛，别人只想拔耳机。你最烦的地方不是爱怪，是爱拿怪考人。约会放这套，服务员都想来问音响是不是坏了。开房前还放这套，对方沉默不一定是害羞，很可能是在想怎么找借口回家洗耳朵。",
+    subNote: "副类型说明你不只是爱怪，还爱拿怪压人。亲热前还要别人做听力题，确实欠骂。",
+    partners: ["abstract", "postrock", "shoegaze"],
+    enemies: ["pb", "oldschool", "neo"],
+    advice:
+      "别老拿怪当身份证。你当然可以听怪歌，但别把每次分享都弄成设备调试会。难听懂不等于值钱，很多时候只等于烦。真喜欢谁，就少摆门槛，少让人陪你做听力训练。暧昧对象不是来考级的，床边也不是试听间。你再让别人“仔细听这段”，对方脑子里只会出现四个字：赶紧撤退。",
   },
-  cloud: {
-    rank: "D 级",
-    title: "Cloud/UK 妖风：假高级潮流孤儿",
-    score: 49,
-    short: "Cloud 氛围诈骗",
+  postrock: {
+    name: "Post Rock / Instrumental",
+    level: 4,
     copy:
-      "你这档就是最会把穷酸和失控包装成风格。\n\n不回消息，叫神秘。作息烂，叫破碎。穿得乱，叫 layering。歌听不懂，叫氛围。人没礼貌，叫松弛感。\n\n你所谓的高级感，很多时候就是滤镜太暗、脸太糊、话太少。真聊两天就露馅：没规划，没表达，没责任感，只有一堆“我也不知道怎么说”。",
-    verdict: "鉴定：诈骗型氛围感。不是神秘，是没说明书还容易坏。",
-    profile:
-      "伴侣画像：吸引那种爱研究头像、截图、歌名大小写的人。TA 以为你是谜语人，后来发现你只是正常话也说不明白。",
+      "你是慢热拖堂王。别人听歌三分钟要爽点，你还在等鼓进；别人暧昧三句话要回应，你还在组织前奏。对方都暗示可以上楼了，你还问要不要再散会儿步。你不是稳，你是把欲望拖到过期。最恐怖的是你还觉得自己很有耐心，实际上对方已经从想亲你变成想打车。",
+    subNote: "副类型说明你还有别的味，但最大毛病还是慢。慢到对方裤子都懒得脱。",
+    partners: ["abstract", "shoegaze", "altmetal"],
+    enemies: ["pb", "tumblr", "oldschool"],
+    advice:
+      "快一点。很多关系就是被你这种人拖死的：你以为再等等更稳，别人只觉得你根本没那个意思。慢热不是罪，慢到对方欲望退潮就是病。喜欢就说，想见就约，能牵手就别装没看见。现实不是器乐长曲，没人有空陪你等鼓进来，更没人愿意在床边陪你做半小时心理热身。",
   },
   oldschool: {
-    rank: "E 级",
-    title: "土鳖老尼讲道理爱好者：real hip-hop 低能保安",
-    score: 8,
-    short: "Old School 保安",
+    name: "Old School / Boom Bap",
+    level: 2,
     copy:
-      "纯二比。\n\n像那种梦里学会英语，现实里凑彩礼凑到信用卡冒烟，婚礼上还非要唱一首 “L-O-V-E” 给自己感动哭的极品老实男。\n\n每天最大乐趣就是给女朋友科普 Wu-Tang。女朋友听张杰，他急得像祖坟被 Auto-Tune 了。人家想听点甜的，他甩过去 ODB。人家说“这个好吵”，他立刻开始讲“你不懂，这才是真 hip-hop”。\n\n不是哥们，没人让你支教。",
-    verdict: "鉴定：性张力火化级。你不是老派，你是老土。",
-    profile:
-      "伴侣画像：适合特别能忍、特别善良、或者听不懂你在说什么的人。TA 一开始以为你踏实，后来发现你不是踏实，你是开不了窍。",
+      "你是老派讲台成精。听两张老专就开始给全世界上课，对象想听点甜的，你甩过去老派金曲；人家说听不进去，你立刻摆出“你不懂”的嘴脸。不是哥们，没人请你来当说唱片警。约会刚有点热，你开始讲押韵；人家想亲，你讲采样；裤腰带还没松，你先把性张力讲进火葬场。",
+    subNote: "你不光爱讲课，还夹着别的毛病。低张力不是意外，是你亲手讲没的。",
+    partners: ["neo", "sleaze", "abstract"],
+    enemies: ["pb", "shoegaze", "experimental"],
+    advice:
+      "少讲两句，真能救命。不是每段关系都需要你普及老专辑，也不是每个听流行歌的人都等你来拯救。你最该改的不是歌单，是那张停不下来的嘴。人家出来是谈恋爱，不是报你的夜校。都到能接吻的距离了，你还在讲黄金年代，谁受得了。想有床边故事，先学会闭嘴十分钟；想继续开课，就准备一个人回家给枕头讲采样。",
   },
 };
 
-const COMBO_COMMENTS = {
-  "drake+rage":
-    "S+A：主流手法配新地下皮肤。你会撩，也会装疯。对方一开始以为你是夜店玩家，聊两天发现你还会往歌单里塞爆音，属于会营业的土狗，杀伤力确实不低。",
-  "drake+abstract":
-    "S+B：会撩，但非要带点阴。你前半句像 Drake，后半句突然开始内耗。优点是很会让人上头，缺点是对方刚心动，你就开始讲自己最近状态不对。",
-  "drake+griselda":
-    "S+C：有手段，也有点端着。你知道怎么推进关系，但又想让人觉得你不是普通玩家。简单说就是一边会来事，一边还要证明自己歌品不是商场背景音乐。",
-  "drake+cloud":
-    "S+D：会撩加氛围诈骗。你知道怎么把暧昧做得好看，也知道什么时候少回两句装神秘。问题是装太久容易露馅，别人会发现你不是深不可测，只是消息管理很会。",
-  "drake+oldschool":
-    "S+E：一个很割裂的物种。你明明有操作空间，却总想在关键时刻讲点老派道理。像好不容易把气氛升起来，突然掏出投影仪讲 hip-hop 发展史。",
-  "rage+abstract":
-    "A+B：精神状态双保险。外面是爆音小登，里面是阴湿男大。你能吸引人，主要靠一种“这人是不是快坏了”的危险感；真处起来，对方大概率要自费修你。",
-  "rage+griselda":
-    "A+C：新土狗想硬装老懂哥。你一边吃版本红利，一边又想显得自己很有质感。效果就是有时候像派对门口很有型，有时候像刚学会几个厂牌名就开始装。",
-  "rage+cloud":
-    "A+D：土狗和氛围诈骗合体。你最会骗那种看头像和穿搭脑补八百集的人。不是你多会撩，是对方把你没睡醒、没表达、没规划全翻译成了“有风格”。",
-  "rage+oldschool":
-    "A+E：一个很抽象的缝合人。嘴上新地下，骨子里又有点爱教育人。你最危险的地方不是吵，是你吵完还想证明自己不是乱听，土狗突然考研，场面很怪。",
-  "abstract+griselda":
-    "B+C：阴湿加硬装，聊天像冷库里开读书会。你有品，也有情绪，但两样都太重。对方如果不是特别吃这一套，很容易觉得自己不是在暧昧，是被你俩审美联手审判。",
-  "abstract+cloud":
-    "B+D：内耗配谜语，纯纯高危恋爱体验。你不回消息像神秘，真回了又像自我剖析。适合吸引拯救欲爆棚的人，普通人聊三天就想申请工伤。",
-  "abstract+oldschool":
-    "B+E：阴湿讲道理型。你不光情绪重，还爱给情绪找理论依据。对方本来想安慰你，结果被你拽进一场关于人生、歌词和时代精神的无偿讲座。",
-  "griselda+cloud":
-    "C+D：装得很完整。你既要质感，又要神秘；既要小众，又要别人看出来你小众。受众很窄，但命中后很准，专打黑衣服、少说话、朋友圈三天可见的人。",
-  "griselda+oldschool":
-    "C+E：懂哥浓度超标。你有审美，但太容易变成说教。听歌像验货，约会像鉴宝，对方问你喜欢什么，你能讲到人家手机自动锁屏。",
-  "cloud+oldschool":
-    "D+E：一个现代包装的老派保安。外表看着挺怪挺潮，开口还是那套“你懂不懂”。最尴尬的是你既没有 Drake 的有效，也没有真地下的松弛，只剩一股硬撑的味。",
+const RELATION_COPY = {
+  pb: {
+    neo: "你负责半夜发歌下钩，对方负责把你从拼多多男香味里拽回来。你俩最妙的地方是：一个会骚，一个不蠢，床边聊天不至于变成低配渣男培训班。",
+    tumblr: "你会卡点发歌，对方会把一个“在吗”演成旧情复燃。你俩聊三天能聊出县城酒吧包厢味，土是土，但真有点上头。",
+    shoegaze: "你负责递话，对方负责装没看见。一个主动拱火，一个被动钓鱼，互相勾着不说死，特别适合半夜把手机聊烫。",
+    oldschool: "你刚把气氛弄热，对方开始讲老专辑。你想拉手，他想讲出处；你想亲，他想纠错。建议别硬聊，容易阳气尽失。",
+    experimental: "你要立刻见效，对方要先听三遍。你都把路铺到床边了，他还在研究怪声，性张力直接被拧成静音。",
+    postrock: "你一句能把人勾过来，对方五分钟还在热身。你准备进下一步了，他还在找感觉，急得人想把手机摔桌上。",
+  },
+  tumblr: {
+    pb: "你负责吊胃口，对方负责收网。你俩最适合深夜互相拉扯，明知道烂俗，还是能把手机聊到发烫。",
+    shoegaze: "你爱发分手歌，对方爱发糊图。一个留半句，一个拍不清，真到床边谁也不先开口，尴尬得很有观赏性。",
+    sleaze: "你爱演，他爱摆。一个喝多了翻旧账，一个没洗头还嫌别人土，凌晨两点烂酒吧门口就缺你俩这对活招牌。",
+    oldschool: "你刚想升温，对方已经开口讲经典。你想亲，他想当老师，晦气到接吻念头当场撤退。",
+    postrock: "你都演完一轮分分合合了，对方还在铺前奏。你急，他慢，最后你一个人在那儿白白上头。",
+    abstract: "你会装难受，对方是真难受。你俩凑一起，成人暧昧直接变互相倒垃圾，谁靠近谁倒霉。",
+  },
+  neo: {
+    pb: "你负责稳住场面，对方负责把窗户纸捅破。一个会办事，一个不瞎作，算是少见的能过日子的组合。",
+    tumblr: "你正常，对方爱演。你能把他从旧账戏里拽出来，前提是你别被那点半真半假的伤感给唬住。",
+    abstract: "你能接住对方绕来绕去的话，但别真把自己活成免费咨询台。谈恋爱不是社区值班，床边也不是问诊室。",
+    altmetal: "你想好好吃顿饭，对方想把桌子震散。你要顺，他要狠狠干一把，聊不到一块，也睡不到一块。",
+    oldschool: "你在过生活，对方在讲课。你问喝什么，他能讲到老专辑，听一会儿就想装肚子疼跑路。",
+    experimental: "你说人话，对方说机器话。你问今晚去哪，他扯怪声多妙，床边欲望直接清零。",
+  },
+  shoegaze: {
+    tumblr: "你爱把图拍糊，对方爱把旧账翻出来。两个人最适合一边发暗图一边说没事，实际一个比一个有事。",
+    pb: "你负责不把话说死，对方负责把局往前推。你在那儿装没看见，他已经替你把门缝撬开了。",
+    abstract: "你不说明白，对方也不说明白。一个爱藏，一个爱拧，特别容易把普通暧昧聊成谁都不高兴的误会现场。",
+    altmetal: "你爱轻声轻气，他爱狠狠干过来。一个负责含糊，一个负责下重手，怪是怪，但有人就吃。",
+    oldschool: "你刚把图和歌摆好，对方一句“这有什么可听的”全给你干碎。你想暧昧，他想纠错，没法玩。",
+    experimental: "你爱糊，他爱怪。发朋友圈也许能唬人，真聊起来全是故障感，床边都能聊成维修现场。",
+  },
+  altmetal: {
+    shoegaze: "你一拳抡过去，对方糊着接住。一个重得吓人，一个虚得要命，听着邪门，偏偏有人吃得死死的。",
+    tumblr: "你负责把火点大，对方负责把旧账翻烂。适合半夜发疯，不适合过日子，过日子这三个字你俩都嫌脏。",
+    postrock: "你一上来就狠狠干，对方还在慢慢攒劲。一个直接掀桌，一个先摆杯子，偶尔能对上，多数时候闹笑话。",
+    pb: "你要的是狠狠干一把，对方要的是高效拿下。你还在摆气势，他已经开始办事，别扭到床边都能开始算转化率。",
+    neo: "你劲太大，对方太稳。对方不是不懂你，是不想每次见面都先做情绪抗压测试。",
+    oldschool: "你靠重，对方靠嘴。一个想靠声音压人，一个想靠老资格压人，两个都硬，硬得床边一点活气没有。",
+  },
+  sleaze: {
+    tumblr: "你爱摆脸，他爱翻旧账。一个不爱好好说话，一个不爱好好结束，特别适合互相折腾到半夜三点。",
+    neo: "你负责把自己弄得很难接近，对方负责把你拽回正常人范围。要没这类人在旁边，你很容易活成笑话。",
+    shoegaze: "你负责穿搭别掉链子，对方负责把图拍好。照片当然能发，真见面就看谁先露怯。",
+    abstract: "你嫌对方拧，对方嫌你装。饭还没吃完，双方已经在心里给彼此打差评，别说上床，连续摊都费劲。",
+    postrock: "你姿势都摆完了，对方还在慢慢启动。你嫌他磨蹭，他嫌你事多，最后基本都收场得很难看。",
+    oldschool: "你爱挑人，对方爱教人。你想拿架子，他想当老师，烦得特别直白，坐对面十分钟都嫌长。",
+  },
+  abstract: {
+    shoegaze: "你爱绕，对方爱藏。你一句话能憋十分钟，对方一张图能糊成马赛克，特别适合互相误会到天亮。",
+    neo: "你负责把简单事说复杂，对方负责不翻脸。能接住你的人不多，别把人家当值夜班保安使。",
+    postrock: "你慢，对方更慢。别人一句晚安发完睡了，你俩能磨到第二天中午，纯纯欲望粉碎机。",
+    pb: "你还在讲自己为啥不适合亲密关系，对方已经把下一顿饭约好了。你写说明书，他直接办事，完全不是一路人。",
+    tumblr: "你真会内耗，对方假装内耗。一个真没电，一个故意只剩一格电，互相看着都嫌晦气。",
+    oldschool: "你要讲心事，对方要讲道理。一个钻牛角尖，一个开培训班，空气都想离席。",
+  },
+  experimental: {
+    abstract: "你爱怪，对方爱绕。正常人根本插不上嘴，你俩倒是能互相点头，两台坏机器终于连上同一个插线板。",
+    postrock: "你反应怪，对方反应慢。别人一顿饭能聊完的事，你俩能拖到服务员开始怀疑你们是不是刚分手。",
+    shoegaze: "你爱把歌弄怪，对方爱把图弄糊。乍一看能唬人，真聊起来全是接触不良，听着就来火。",
+    pb: "人家要马上有反应，你非要先做听力训练。对方都快把话挑明了，你还在那儿说再听一遍，活该冷场。",
+    oldschool: "一个嫌别人老，一个嫌别人吵。你说他土，他说你瞎响，这种组合最适合互删，省心。",
+    neo: "你老想证明自己很特别，对方只想把饭吃明白。你在那儿摆门槛，人家已经想换桌，床边更别想。",
+  },
+  postrock: {
+    abstract: "你慢，对方也慢。一个爱憋着，一个爱绕着，一句“睡了吗”都能聊成三集，成年人看了都上火。",
+    shoegaze: "你爱铺垫，对方爱把东西弄糊。拍照是好看，聊天是要命，属于看图挺行、见面想跑那一挂。",
+    altmetal: "你还在攒那一下劲，对方已经狠狠干上来了。一个还在摆盘，一个直接把锅端桌上，乱得挺好笑。",
+    pb: "对方都把气氛推到门口了，你还在热身。你不是慢热，你是加载条卡住，卡得人想拍屏幕。",
+    tumblr: "对方想赶紧有来有回，你非要慢慢铺。人家都准备开演了，你还在搭景，谁不烦。",
+    oldschool: "你慢就算了，对方还爱讲课。一个拖，一个烦，约会桌上能同时凑齐困和烦，性张力现场断电。",
+  },
+  oldschool: {
+    neo: "对方能忍你几句，前提是你别把每次吃饭都搞成课堂。人家是成熟，不是花钱来补说唱史。",
+    sleaze: "对方一脸“你随便讲”，实际压根没往心里听。你以为自己占了上风，真相是人家懒得搭理你。",
+    abstract: "你讲老专，对方讲心事，两个都不怎么好伺候。一个爱上课，一个爱长叹气，两个科室拼桌会诊。",
+    pb: "对方想暧昧，你想纠错。你发老专辑，他已读不回；你觉得他肤浅，他觉得你有病，特别公平。",
+    shoegaze: "对方辛辛苦苦把图修糊、把歌挑糊，你一开口全给人家打回证件照。你不是冤家，你是床边冷水。",
+    experimental: "你嫌他瞎响，他嫌你老土。谁也看不上谁，还都觉得自己在替天行道，属于双倍招笑。",
+  },
 };
-
-const CATEGORY_ORDER = ["drake", "rage", "abstract", "griselda", "cloud", "oldschool"];
 
 const QUESTIONS = [
   {
-    tag: "ROUND 01",
-    text: "刚认识的人问你“你平时听什么歌”，你怎么接？",
+    tag: "01 / 15",
+    text: "你发歌给别人，最真实的目的是什么？",
     options: [
-      { title: "说“我听得比较怪”，然后等对方追问。", weights: { cloud: 3, abstract: 1 } },
-      { title: "先说几首大家都认识的，再看对方反应慢慢加码。", weights: { drake: 4 } },
-      { title: "从老东西开始讲，最好能顺手纠正一下对方审美。", weights: { oldschool: 4 } },
-      { title: "直接甩几个很新的名字，顺便看对方是不是同类。", weights: { rage: 4, cloud: 1 } },
+      { title: "让对面知道：这条不是群发，我就是发给你的。", scores: { pb: 3, tumblr: 1 } },
+      { title: "让人知道我听歌不土，顺便立个人设。", scores: { experimental: 2, sleaze: 1, shoegaze: 1 } },
+      { title: "顺手考一下对面够不够懂。", scores: { oldschool: 2, abstract: 1, postrock: 1 } },
+      { title: "单纯觉得好听，分享一下，不想搞戏。", scores: { neo: 3, pb: 1 } },
+      { title: "看看对方扛不扛得住重口。", scores: { altmetal: 3, experimental: 1 } },
     ],
   },
   {
-    tag: "ROUND 02",
-    text: "第一次约会前，如果要准备一个路上听的歌单，你会怎么弄？",
+    tag: "02 / 15",
+    text: "如果约会路上只能放一种歌，你会放哪种？",
     options: [
-      { title: "放点采样脏、鼓少、人声冷的，先把质感摆出来。", weights: { griselda: 4 } },
-      { title: "选旋律顺、情绪准的，别让对方坐车还要做听力题。", weights: { drake: 4 } },
-      { title: "塞几首很闷的，看看对方会不会问你最近怎么了。", weights: { abstract: 4 } },
-      { title: "直接上新地下，声音一开就知道你不是普通路人。", weights: { rage: 3, cloud: 2 } },
+      { title: "顺耳、好接话，不耽误聊天。", scores: { pb: 2, neo: 2 } },
+      { title: "吉他苦情歌，适合想旧账。", scores: { tumblr: 3, sleaze: 1 } },
+      { title: "人声远远的，字听不清，适合看窗外。", scores: { shoegaze: 3, postrock: 1 } },
+      { title: "低频大、鼓重，车门都想震松。", scores: { altmetal: 3, experimental: 1 } },
+      { title: "老歌，最好还能顺嘴讲两句来头。", scores: { oldschool: 3, neo: 1 } },
     ],
   },
   {
-    tag: "ROUND 03",
-    text: "对方说“最近烦死了”，你第一反应是？",
+    tag: "03 / 15",
+    text: "别人点开你的歌单，最容易看到什么共同点？",
     options: [
-      { title: "开始讲道理：人还是要把问题想明白。", weights: { oldschool: 3, griselda: 1 } },
-      { title: "直接约出来，吃点东西，先把人从坏情绪里捞出来。", weights: { drake: 4 } },
-      { title: "说晚上有局，别想了，出来晃一下。", weights: { rage: 4 } },
-      { title: "顺着聊，说自己最近也挺乱，俩人一起沉下去。", weights: { abstract: 4, cloud: 1 } },
+      { title: "很多歌旋律清楚，人声靠前，适合发给别人。", scores: { pb: 4, neo: 1 } },
+      { title: "很多歌有吉他，歌词绕不开恋爱和旧事。", scores: { tumblr: 4, sleaze: 1 } },
+      { title: "很多歌节奏舒服，乐器和人声都不抢。", scores: { neo: 4, pb: 1 } },
+      { title: "很多歌人声很远，吉他铺得很满。", scores: { shoegaze: 4, postrock: 1 } },
+      { title: "很多歌鼓点硬，歌词密，年份也偏老。", scores: { oldschool: 4, abstract: 1 } },
     ],
   },
   {
-    tag: "ROUND 04",
-    text: "半夜想发首歌给暧昧对象，你会选哪种？",
+    tag: "04 / 15",
+    text: "你觉得最顶的声音是哪种？",
     options: [
-      { title: "很吵、很新、很上头，先把对方耳朵炸醒。", weights: { rage: 4 } },
-      { title: "很闷、很低、很丧，发完等对方问你怎么了。", weights: { abstract: 4 } },
-      { title: "旋律和情绪都很直接，对方一听就知道你想干嘛。", weights: { drake: 4 } },
-      { title: "很经典，经典到你发完忍不住补一句背景知识。", weights: { oldschool: 4, griselda: 1 } },
+      { title: "声音会哄人，适合暧昧。", scores: { pb: 3, neo: 1 } },
+      { title: "吉他和鼓要有憋着不说的劲。", scores: { tumblr: 3, sleaze: 1 } },
+      { title: "人声糊、词听不清，但就是想开大。", scores: { shoegaze: 3, postrock: 1 } },
+      { title: "低频狠狠干过来，耳朵先麻了。", scores: { altmetal: 3, experimental: 1 } },
+      { title: "前面慢，后面一下顶上来。", scores: { postrock: 3, abstract: 1 } },
     ],
   },
   {
-    tag: "ROUND 05",
-    text: "聊天突然冷场了，你会怎么处理？",
+    tag: "05 / 15",
+    text: "你听歌最看重什么？",
     options: [
-      { title: "不救，消息停在那儿，谁急谁输。", weights: { cloud: 3, rage: 1 } },
-      { title: "认真解释自己刚才那句话到底是什么意思。", weights: { oldschool: 3, abstract: 1 } },
-      { title: "换个轻松话题，先把气氛救活。", weights: { drake: 4 } },
-      { title: "发首歌过去，假装这也算继续聊天。", weights: { griselda: 2, abstract: 2, cloud: 1 } },
+      { title: "能不能在聊天和约会里派上用场。", scores: { pb: 3, tumblr: 1 } },
+      { title: "顺不顺，别搞得太端着。", scores: { neo: 3, pb: 1 } },
+      { title: "要够怪，不想一耳朵就被猜中。", scores: { experimental: 3, sleaze: 1 } },
+      { title: "要有后劲，前面慢点没事。", scores: { postrock: 3, abstract: 1 } },
+      { title: "得经得起反复放，别听两次就塌。", scores: { oldschool: 3, altmetal: 1 } },
     ],
   },
   {
-    tag: "ROUND 06",
-    text: "朋友聚会让你连蓝牙放歌，你会怎么来？",
+    tag: "06 / 15",
+    text: "晚上一个人听歌，你最需要它满足什么？",
     options: [
-      { title: "放点冷的，音量不用大，主要是让懂的人抬头。", weights: { griselda: 4, cloud: 1 } },
-      { title: "直接上新地下，谁皱眉谁今晚没赶上版本。", weights: { rage: 4 } },
-      { title: "放经典老歌，然后等谁说不好听你就开讲。", weights: { oldschool: 4 } },
-      { title: "先放大家都能进来的，场子热了再夹点自己的。", weights: { drake: 4 } },
+      { title: "人声要顺，听完还想继续聊天。", scores: { pb: 4, neo: 2 } },
+      { title: "吉他要明显，歌词要有旧关系的味。", scores: { tumblr: 4, sleaze: 2 } },
+      { title: "人声不用清楚，声音铺开就行。", scores: { shoegaze: 4, postrock: 1 } },
+      { title: "低频要重，音量要大，听完得有劲。", scores: { altmetal: 4, experimental: 1 } },
+      { title: "歌词要密，鼓点要能反复抠。", scores: { abstract: 3, oldschool: 3 } },
     ],
   },
   {
-    tag: "ROUND 07",
-    text: "暧昧对象发自拍，你最像哪种回复？",
+    tag: "07 / 15",
+    text: "你发听歌截图，通常是哪种操作？",
     options: [
-      { title: "不太夸外表，反而问对方是不是最近有点累。", weights: { abstract: 4 } },
-      { title: "夸得很明确，不写小作文，但对方知道你真看了。", weights: { drake: 4 } },
-      { title: "先不回，过一阵子丢一句很短的“可以”。", weights: { cloud: 4 } },
-      { title: "夸人之前，先注意到背景里的唱片/海报/衣服。", weights: { griselda: 3, oldschool: 1 } },
+      { title: "发一首大家都认识、但意思很明显的。", scores: { pb: 3, tumblr: 1 } },
+      { title: "封面糊、字小、啥也不解释。", scores: { shoegaze: 2, experimental: 2 } },
+      { title: "老封面原图，再补一句“现在没人这么做歌了”。", scores: { oldschool: 3, sleaze: 1 } },
+      { title: "发一首十分钟的，没人点赞也无所谓。", scores: { postrock: 3, abstract: 1 } },
+      { title: "自拍放前面，歌放后面，主要给人看状态。", scores: { sleaze: 2, pb: 1, tumblr: 1 } },
     ],
   },
   {
-    tag: "ROUND 08",
-    text: "别人听完你推荐的歌，说“这啥啊”，你会？",
+    tag: "08 / 15",
+    text: "如果有人让你选一张专辑从头听到尾，你更愿意选哪种？",
     options: [
-      { title: "回一句“现在就这味儿”，不解释，反正你赶上了。", weights: { rage: 4 } },
-      { title: "换一首更好入口的，没必要把人按着上课。", weights: { drake: 4 } },
-      { title: "让对方再听两遍，重点不在好听，在味儿。", weights: { griselda: 3, oldschool: 2 } },
-      { title: "嘴上说“确实不好入”，心里默默扣对方审美分。", weights: { abstract: 2, cloud: 2 } },
+      { title: "旋律清楚、制作干净、能一直听下去的。", scores: { pb: 3, neo: 3 } },
+      { title: "吉他为主，歌词有恋爱和旧事的。", scores: { tumblr: 4, shoegaze: 1 } },
+      { title: "低频重、吉他重、情绪很满的。", scores: { altmetal: 4, sleaze: 1 } },
+      { title: "编曲怪、声音怪、第一遍不好入口的。", scores: { experimental: 4, abstract: 1 } },
+      { title: "老派鼓点、歌词密、能听出技术的。", scores: { oldschool: 4, abstract: 1 } },
     ],
   },
   {
-    tag: "ROUND 09",
-    text: "如果只能留一个歌单方向，你最舍不得删哪种？",
+    tag: "09 / 15",
+    text: "两个人共用一个音箱，你最受不了对方怎么放？",
     options: [
-      { title: "90s 纽约、硬核、boom bap，那些你觉得不能断根的。", weights: { oldschool: 4 } },
-      { title: "云里雾里的新东西，歌名怪、封面糊、但氛围很对。", weights: { cloud: 4, rage: 1 } },
-      { title: "Drake、Future、PND 这种真能放进生活场景里的。", weights: { drake: 4 } },
-      { title: "Earl、MIKE、Navy Blue 这种听完人会安静一会儿的。", weights: { abstract: 4 } },
+      { title: "全放甜歌和热歌，目的性太强。", scores: { abstract: 2, experimental: 2, postrock: 1 } },
+      { title: "全放吉他苦歌，越听越丧。", scores: { neo: 2, oldschool: 2, experimental: 1 } },
+      { title: "全放人声很糊的歌，听半天听不清。", scores: { pb: 2, oldschool: 2, neo: 1 } },
+      { title: "全放老歌，还要边放边讲。", scores: { tumblr: 2, shoegaze: 2, sleaze: 1 } },
+      { title: "全放怪声和重低音，耳朵很累。", scores: { pb: 2, neo: 2, tumblr: 1 } },
     ],
   },
   {
-    tag: "ROUND 10",
-    text: "你最不能忍别人怎么评价你的歌品？",
+    tag: "10 / 15",
+    text: "你听到一首歌，哪种情况最容易直接切掉？",
     options: [
-      { title: "“你不是深情，你就是想太多还爱内耗。”", weights: { abstract: 4 } },
-      { title: "“你别装了，你就是想显得跟别人不一样。”", weights: { cloud: 3, griselda: 1 } },
-      { title: "“你不是懂，你就是爹味重还爱讲课。”", weights: { oldschool: 4 } },
-      { title: "“你听的东西太油了，但确实好用。”", weights: { drake: 4 } },
+      { title: "旋律太甜、太会撩，听着目的太明显。", scores: { abstract: 2, experimental: 2, postrock: 1 } },
+      { title: "吉他太苦，歌词全是旧恋爱。", scores: { neo: 2, oldschool: 2, experimental: 1 } },
+      { title: "人声太糊，听半天听不清唱什么。", scores: { pb: 2, oldschool: 2, neo: 1 } },
+      { title: "鼓点太老，开口就有上课味。", scores: { tumblr: 2, shoegaze: 2, sleaze: 1 } },
+      { title: "声音太怪，第一分钟就听不下去。", scores: { pb: 2, neo: 2, tumblr: 1 } },
+    ],
+  },
+  {
+    tag: "11 / 15",
+    text: "如果只能留一类歌，你留哪类？",
+    options: [
+      { title: "旋律顺、人声清楚，什么时候放都不尴尬。", scores: { pb: 3, neo: 1 } },
+      { title: "吉他多，歌词总在讲旧关系。", scores: { tumblr: 3, sleaze: 1 } },
+      { title: "人声很糊，吉他和合成器铺得很满。", scores: { shoegaze: 3, abstract: 1 } },
+      { title: "声音怪，结构也怪，第一遍不一定好听。", scores: { experimental: 3, altmetal: 1 } },
+      { title: "鼓点硬、歌词密，听完容易想跟人争。", scores: { oldschool: 3, postrock: 1 } },
+    ],
+  },
+  {
+    tag: "12 / 15",
+    text: "你最受不了哪种歌单？",
+    options: [
+      { title: "全是太会撩的歌，群发感很重。", scores: { abstract: 2, postrock: 1, experimental: 1 } },
+      { title: "全是怪响，听着很难受。", scores: { pb: 2, neo: 2 } },
+      { title: "全是老专辑，歌没放完人先开始训话。", scores: { tumblr: 2, shoegaze: 1, sleaze: 1 } },
+      { title: "全是慢歌，五分钟过去还没开张。", scores: { altmetal: 2, pb: 1, oldschool: 1 } },
+      { title: "全是吉他苦情歌，分手味太冲。", scores: { neo: 1, experimental: 1, oldschool: 1 } },
+    ],
+  },
+  {
+    tag: "13 / 15",
+    text: "朋友聚会让你放歌，你最可能怎么放？",
+    options: [
+      { title: "先放旋律清楚的，别让场子冷掉。", scores: { neo: 3, pb: 1 } },
+      { title: "放大家听过的流行歌，但别太口水。", scores: { pb: 2, tumblr: 2 } },
+      { title: "放自己喜欢的冷门歌，看谁会问歌名。", scores: { sleaze: 2, experimental: 2 } },
+      { title: "放长歌，不太管别人会不会想切。", scores: { postrock: 3, abstract: 1 } },
+      { title: "放经典老歌，别人说难听你就想反驳。", scores: { oldschool: 3, altmetal: 1 } },
+    ],
+  },
+  {
+    tag: "14 / 15",
+    text: "什么情况会让你立刻收藏一首新歌？",
+    options: [
+      { title: "第一遍就顺，马上能想到发给谁。", scores: { pb: 3, tumblr: 1 } },
+      { title: "歌词全在翻旧账，越听越想看聊天记录。", scores: { tumblr: 3, abstract: 1 } },
+      { title: "歌不闹腾，唱得稳，放哪都不出丑。", scores: { neo: 3, oldschool: 1 } },
+      { title: "一开始有点怪，第二遍突然上头。", scores: { experimental: 3, shoegaze: 1 } },
+      { title: "鼓一进来就想把音量拧大。", scores: { altmetal: 3, postrock: 1 } },
+    ],
+  },
+  {
+    tag: "15 / 15",
+    text: "最后一题：你最怕别人怎么评价你的歌品？",
+    options: [
+      { title: "太会撩了，专门拿歌钓人。", scores: { pb: 3, tumblr: 1 } },
+      { title: "太爱演了，没分手也要装分手。", scores: { tumblr: 2, shoegaze: 2 } },
+      { title: "太平了，完全没有暧昧味。", scores: { neo: 3, postrock: 1 } },
+      { title: "太怪了，故意不让人听懂。", scores: { experimental: 2, abstract: 1, shoegaze: 1 } },
+      { title: "太爱教育人了，随时准备开课。", scores: { oldschool: 3, sleaze: 1 } },
     ],
   },
 ];
@@ -208,14 +378,17 @@ const QUESTIONS = [
 let currentQuestion = 0;
 let isAdvancing = false;
 const answers = [];
+let activeQuestions = [];
 
 const introScreen = document.querySelector("#introScreen");
 const quizScreen = document.querySelector("#quizScreen");
 const resultScreen = document.querySelector("#resultScreen");
+const resultCard = document.querySelector(".result-card");
 const startBtn = document.querySelector("#startBtn");
 const backBtn = document.querySelector("#backBtn");
 const restartBtn = document.querySelector("#restartBtn");
 const questionIndex = document.querySelector("#questionIndex");
+const questionTotal = document.querySelector("#questionTotal");
 const progressFill = document.querySelector("#progressFill");
 const questionTag = document.querySelector("#questionTag");
 const questionText = document.querySelector("#questionText");
@@ -233,17 +406,24 @@ function startQuiz() {
   window.setTimeout(() => quizScreen.classList.remove("screen-enter"), 420);
   currentQuestion = 0;
   answers.length = 0;
+  isAdvancing = false;
+  activeQuestions = QUESTIONS.map((question) => ({
+    ...question,
+    options: shuffleOptions(question.options),
+  }));
   renderQuestion();
 }
 
 function renderQuestion() {
-  const question = QUESTIONS[currentQuestion];
+  const question = activeQuestions[currentQuestion];
   const card = document.querySelector(".question-card");
   card.classList.remove("card-enter");
   void card.offsetWidth;
   card.classList.add("card-enter");
+
   questionIndex.textContent = String(currentQuestion + 1).padStart(2, "0");
-  progressFill.style.width = `${((currentQuestion + 1) / QUESTIONS.length) * 100}%`;
+  questionTotal.textContent = activeQuestions.length;
+  progressFill.style.width = `${((currentQuestion + 1) / activeQuestions.length) * 100}%`;
   questionTag.textContent = question.tag;
   questionText.textContent = question.text;
   backBtn.style.visibility = currentQuestion === 0 ? "hidden" : "visible";
@@ -265,7 +445,8 @@ function renderQuestion() {
 function selectOption(optionIndex) {
   if (isAdvancing) return;
   isAdvancing = true;
-  const question = QUESTIONS[currentQuestion];
+
+  const question = activeQuestions[currentQuestion];
   answers[currentQuestion] = {
     optionIndex,
     ...question.options[optionIndex],
@@ -275,7 +456,7 @@ function selectOption(optionIndex) {
   selectedButton?.classList.add("selected");
 
   window.setTimeout(() => {
-    if (currentQuestion < QUESTIONS.length - 1) {
+    if (currentQuestion < activeQuestions.length - 1) {
       currentQuestion += 1;
       isAdvancing = false;
       renderQuestion();
@@ -284,11 +465,11 @@ function selectOption(optionIndex) {
 
     isAdvancing = false;
     showResult();
-  }, 180);
+  }, 160);
 }
 
 function goBack() {
-  if (currentQuestion === 0) return;
+  if (currentQuestion === 0 || isAdvancing) return;
   currentQuestion -= 1;
   renderQuestion();
 }
@@ -296,43 +477,88 @@ function goBack() {
 function restartQuiz() {
   resultScreen.classList.add("hidden");
   introScreen.classList.remove("hidden");
+  resultScreen.removeAttribute("data-type");
+  resultCard?.removeAttribute("data-type");
 }
 
 function showResult() {
-  const scores = Object.fromEntries(Object.keys(CATEGORIES).map((key) => [key, 0]));
+  const scores = Object.fromEntries(TYPE_ORDER.map((key) => [key, 0]));
+  const maxScores = getMaxScores();
 
   answers.forEach((answer) => {
-    Object.entries(answer.weights).forEach(([key, value]) => {
+    Object.entries(answer.scores).forEach(([key, value]) => {
       scores[key] += value;
     });
   });
 
-  const sorted = Object.entries(scores).sort((a, b) => {
+  const normalizedScores = Object.fromEntries(
+    TYPE_ORDER.map((key) => [key, maxScores[key] ? scores[key] / maxScores[key] : 0]),
+  );
+
+  const sorted = Object.entries(normalizedScores).sort((a, b) => {
     if (b[1] !== a[1]) return b[1] - a[1];
-    return CATEGORIES[b[0]].score - CATEGORIES[a[0]].score;
+    return TYPE_ORDER.indexOf(a[0]) - TYPE_ORDER.indexOf(b[0]);
   });
 
-  const [winnerKey] = sorted[0];
-  const [runnerKey] = sorted[1];
-  const result = CATEGORIES[winnerKey];
-  const runner = CATEGORIES[runnerKey];
-  const comboKey = [winnerKey, runnerKey]
-    .sort((a, b) => CATEGORY_ORDER.indexOf(a) - CATEGORY_ORDER.indexOf(b))
-    .join("+");
+  const [mainKey] = sorted[0];
+  const [subKey] = sorted[1];
+  const main = TYPES[mainKey];
+  const sub = TYPES[subKey];
+  const bestPartnerKey = pickRelatedType(main.partners, normalizedScores);
+  const enemyKey = pickRelatedType(main.enemies, normalizedScores);
+  const bestPartner = TYPES[bestPartnerKey];
+  const enemy = TYPES[enemyKey];
 
-  document.querySelector("#resultRank").textContent = `${result.rank} / ${result.short}`;
-  document.querySelector("#resultTitle").textContent = result.title;
-  document.querySelector("#resultScore").textContent = result.score;
-  document.querySelector("#resultCopy").textContent = result.copy;
-  document.querySelector("#resultVerdict").textContent = result.verdict;
-  document.querySelector("#profileText").textContent = result.profile;
-  document.querySelector("#runnerUp").textContent = `${runner.rank} ${runner.short}`;
-  document.querySelector("#comboComment").textContent =
-    COMBO_COMMENTS[comboKey] || "混合得比较散，属于歌品人格没完全定型。好消息是还有救，坏消息是现在已经够乱了。";
+  document.querySelector("#mainType").textContent = main.name;
+  document.querySelector("#subType").textContent = sub.name;
+  document.querySelector("#mainCopy").textContent = main.copy;
+  document.querySelector("#subCopy").textContent = sub.subNote;
+  document.querySelector("#tensionLevel").textContent = `Lv.${main.level} / 10`;
+  document.querySelector("#bestPartner").textContent = bestPartner.name;
+  document.querySelector("#partnerCopy").textContent = RELATION_COPY[mainKey][bestPartnerKey];
+  document.querySelector("#enemyType").textContent = enemy.name;
+  document.querySelector("#enemyCopy").textContent = RELATION_COPY[mainKey][enemyKey];
+  document.querySelector("#adviceCopy").textContent = main.advice;
+
+  resultScreen.dataset.type = mainKey;
+  resultCard?.setAttribute("data-type", mainKey);
 
   quizScreen.classList.add("hidden");
   resultScreen.classList.remove("hidden");
   resultScreen.classList.add("screen-enter");
   window.setTimeout(() => resultScreen.classList.remove("screen-enter"), 420);
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function pickRelatedType(candidates, scores) {
+  return candidates
+    .slice()
+    .sort((a, b) => {
+      if (scores[b] !== scores[a]) return scores[b] - scores[a];
+      return TYPE_ORDER.indexOf(a) - TYPE_ORDER.indexOf(b);
+    })[0];
+}
+
+function getMaxScores() {
+  const maxScores = Object.fromEntries(TYPE_ORDER.map((key) => [key, 0]));
+
+  QUESTIONS.forEach((question) => {
+    TYPE_ORDER.forEach((key) => {
+      const bestOptionScore = Math.max(
+        ...question.options.map((option) => option.scores[key] || 0),
+      );
+      maxScores[key] += bestOptionScore;
+    });
+  });
+
+  return maxScores;
+}
+
+function shuffleOptions(optionList) {
+  const shuffled = optionList.slice();
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
 }

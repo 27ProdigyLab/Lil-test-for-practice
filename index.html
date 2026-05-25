@@ -9,10 +9,10 @@
   <body>
     <main class="app">
       <section class="hero" id="introScreen">
-        <div class="brand">RAP TASTE TEST</div>
+        <div class="brand">歌单审判处</div>
         <h1>歌品性张力鉴定</h1>
         <p class="lead">
-          10 道题，按你的歌品和约会表现给你判个型。别装理客中，这玩意不讲科学，讲的是你身上那点藏不住的审美案底。
+          15 道题，按你的歌品给你当场判刑。别装淡定，测完要么发现自己会拿歌办事，要么发现自己一直在拿歌丢人。
         </p>
         <div class="hero-actions">
           <button class="primary-btn" id="startBtn">开始鉴定</button>
@@ -25,7 +25,7 @@
           <div class="progress-wrap">
             <div class="progress-meta">
               <span id="questionIndex">01</span>
-              <span>10</span>
+              <span id="questionTotal">15</span>
             </div>
             <div class="progress-track">
               <div class="progress-fill" id="progressFill"></div>
@@ -34,7 +34,7 @@
         </header>
 
         <article class="question-card">
-          <p class="question-kicker" id="questionTag">SCENE 01</p>
+          <p class="question-kicker" id="questionTag">01 / 15</p>
           <h2 id="questionText"></h2>
           <div class="options" id="options"></div>
         </article>
@@ -45,30 +45,35 @@
           <button class="ghost-btn" id="restartBtn">重测</button>
         </div>
         <article class="result-card">
-          <div class="result-hero">
-            <p class="result-label" id="resultRank"></p>
-            <h2 id="resultTitle"></h2>
-            <div class="score-line">
-              <span>性张力指数</span>
-              <strong id="resultScore"></strong>
+          <div class="result-section result-hero">
+            <div class="result-stamp">歌品判决书</div>
+            <h2>最终结果</h2>
+            <div class="type-stack">
+              <p class="type-line"><span>主类型</span><strong id="mainType"></strong></p>
+              <p class="type-line"><span>副类型</span><strong id="subType"></strong></p>
             </div>
+            <p class="result-copy" id="mainCopy"></p>
+            <p class="sub-copy" id="subCopy"></p>
           </div>
-          <p class="result-copy" id="resultCopy"></p>
+
           <div class="result-grid">
-            <div class="profile">
-              <h3>人物/伴侣画像</h3>
-              <p id="profileText"></p>
+            <div class="result-section level-card">
+              <h3>性张力等级</h3>
+              <strong id="tensionLevel"></strong>
             </div>
-            <div class="verdict">
-              <h3>鉴定意见</h3>
-              <p id="resultVerdict"></p>
+            <div class="result-section">
+              <h3>最佳伴侣</h3>
+              <strong id="bestPartner"></strong>
+              <p id="partnerCopy"></p>
             </div>
-            <div class="mix-box">
-              <div>
-                <span>混合嫌疑</span>
-                <strong id="runnerUp"></strong>
-              </div>
-              <p id="comboComment"></p>
+            <div class="result-section">
+              <h3>冤家类型</h3>
+              <strong id="enemyType"></strong>
+              <p id="enemyCopy"></p>
+            </div>
+            <div class="result-section advice-card">
+              <h3>情感建议</h3>
+              <p id="adviceCopy"></p>
             </div>
           </div>
         </article>
