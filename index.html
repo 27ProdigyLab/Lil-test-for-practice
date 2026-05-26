@@ -4,16 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>歌品性张力鉴定</title>
-    <link rel="stylesheet" href="./styles.css?v=2" />
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <main class="app">
       <section class="hero" id="introScreen">
         <div class="brand">歌单审判处</div>
         <h1>歌品性张力鉴定</h1>
-        <p class="lead">
-          15 道题，按你的歌品给你当场判刑。别装淡定，测完要么发现自己会拿歌办事，要么发现自己一直在拿歌丢人。
-        </p>
         <div class="hero-actions">
           <button class="primary-btn" id="startBtn">开始鉴定</button>
         </div>
@@ -57,9 +54,18 @@
           </div>
 
           <div class="result-grid">
-            <div class="result-section level-card">
-              <h3>性张力等级</h3>
-              <strong id="tensionLevel"></strong>
+            <div class="result-section radar-card">
+              <div class="radar-head">
+                <div>
+                  <h3>性张力等级</h3>
+                  <strong id="tensionLevel"></strong>
+                </div>
+                <button class="radar-combo" id="radarCombo" type="button"></button>
+              </div>
+              <div class="radar-wrap">
+                <svg id="radarChart" viewBox="0 0 240 240" role="img" aria-label="六维雷达图"></svg>
+                <div class="radar-tip" id="radarTip" aria-live="polite"></div>
+              </div>
             </div>
             <div class="result-section">
               <h3>最佳伴侣</h3>

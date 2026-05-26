@@ -11,6 +11,24 @@ const TYPE_ORDER = [
   "oldschool",
 ];
 
+const QUESTION_WEIGHTS = [
+  1.35,
+  1.45,
+  1.55,
+  0.85,
+  1.35,
+  1.7,
+  0.95,
+  1.65,
+  1.15,
+  1.25,
+  2.35,
+  1.25,
+  1.25,
+  0.75,
+  0.9,
+];
+
 const TYPES = {
   pb: {
     name: "PB R&B / Urban",
@@ -124,6 +142,28 @@ const TYPES = {
   },
 };
 
+const RADAR_LABELS = [
+  ["taste", "品位"],
+  ["pure", "纯爱值"],
+  ["attraction", "吸引力"],
+  ["eq", "情商"],
+  ["di", "迪度"],
+  ["desire", "欲望值"],
+];
+
+const RADAR_PROFILES = {
+  pb: { taste: 7, pure: 4, attraction: 10, eq: 9, di: 5, desire: 10 },
+  tumblr: { taste: 7, pure: 7, attraction: 8, eq: 6, di: 6, desire: 7 },
+  neo: { taste: 9, pure: 8, attraction: 8, eq: 9, di: 5, desire: 7 },
+  shoegaze: { taste: 8, pure: 8, attraction: 7, eq: 5, di: 7, desire: 6 },
+  altmetal: { taste: 7, pure: 4, attraction: 8, eq: 5, di: 8, desire: 9 },
+  sleaze: { taste: 8, pure: 3, attraction: 8, eq: 5, di: 8, desire: 8 },
+  abstract: { taste: 8, pure: 8, attraction: 5, eq: 4, di: 8, desire: 4 },
+  experimental: { taste: 9, pure: 3, attraction: 5, eq: 3, di: 10, desire: 4 },
+  postrock: { taste: 7, pure: 8, attraction: 4, eq: 4, di: 6, desire: 3 },
+  oldschool: { taste: 6, pure: 5, attraction: 2, eq: 3, di: 4, desire: 2 },
+};
+
 const RELATION_COPY = {
   pb: {
     neo: "你负责半夜发歌下钩，对方负责把你从拼多多男香味里拽回来。你俩最妙的地方是：一个会骚，一个不蠢，床边聊天不至于变成低配渣男培训班。",
@@ -212,10 +252,10 @@ const QUESTIONS = [
     tag: "01 / 15",
     text: "你发歌给别人，最真实的目的是什么？",
     options: [
-      { title: "让对面知道：这条不是群发，我就是发给你的。", scores: { pb: 3, tumblr: 1 } },
+      { title: "试探一下对面够不够迪。", scores: { sleaze: 2, altmetal: 2, experimental: 1 } },
       { title: "让人知道我听歌不土，顺便立个人设。", scores: { experimental: 2, sleaze: 1, shoegaze: 1 } },
-      { title: "顺手考一下对面够不够懂。", scores: { oldschool: 2, abstract: 1, postrock: 1 } },
-      { title: "单纯觉得好听，分享一下，不想搞戏。", scores: { neo: 3, pb: 1 } },
+      { title: "寻找话题，一切为上床服务。", scores: { pb: 4, tumblr: 1 } },
+      { title: "彰显品位，杜绝同质化。", scores: { experimental: 2, oldschool: 2, abstract: 1 } },
       { title: "看看对方扛不扛得住重口。", scores: { altmetal: 3, experimental: 1 } },
     ],
   },
@@ -223,33 +263,33 @@ const QUESTIONS = [
     tag: "02 / 15",
     text: "如果约会路上只能放一种歌，你会放哪种？",
     options: [
-      { title: "顺耳、好接话，不耽误聊天。", scores: { pb: 2, neo: 2 } },
-      { title: "吉他苦情歌，适合想旧账。", scores: { tumblr: 3, sleaze: 1 } },
+      { title: "器乐类，营造神秘感。", scores: { postrock: 3, experimental: 1, shoegaze: 1 } },
+      { title: "独立白人音乐，制作比歌词有趣。", scores: { tumblr: 3, sleaze: 1 } },
       { title: "人声远远的，字听不清，适合看窗外。", scores: { shoegaze: 3, postrock: 1 } },
-      { title: "低频大、鼓重，车门都想震松。", scores: { altmetal: 3, experimental: 1 } },
-      { title: "老歌，最好还能顺嘴讲两句来头。", scores: { oldschool: 3, neo: 1 } },
+      { title: "放点能摇起来的，烘托气氛。", scores: { pb: 2, altmetal: 2, sleaze: 1 } },
+      { title: "吉他苦情歌，有一种户口本单开的惆怅。", scores: { tumblr: 3, shoegaze: 1 } },
     ],
   },
   {
     tag: "03 / 15",
     text: "别人点开你的歌单，最容易看到什么共同点？",
     options: [
-      { title: "很多歌旋律清楚，人声靠前，适合发给别人。", scores: { pb: 4, neo: 1 } },
+      { title: "很多歌口水至极，但就是顺耳。", scores: { pb: 3, neo: 2 } },
       { title: "很多歌有吉他，歌词绕不开恋爱和旧事。", scores: { tumblr: 4, sleaze: 1 } },
-      { title: "很多歌节奏舒服，乐器和人声都不抢。", scores: { neo: 4, pb: 1 } },
-      { title: "很多歌人声很远，吉他铺得很满。", scores: { shoegaze: 4, postrock: 1 } },
-      { title: "很多歌鼓点硬，歌词密，年份也偏老。", scores: { oldschool: 4, abstract: 1 } },
+      { title: "很多歌鼓和贝斯不抢戏，人声一进来就能听下去。", scores: { neo: 4, pb: 1 } },
+      { title: "很多歌像在地下室录的，制作成本买不了一包利群。", scores: { abstract: 2, shoegaze: 2, experimental: 1 } },
+      { title: "很多歌乐器简单，纯靠人声引导情绪。", scores: { neo: 3, pb: 1, abstract: 1 } },
     ],
   },
   {
     tag: "04 / 15",
-    text: "你觉得最顶的声音是哪种？",
+    text: "第一次约会，对方哪种操作最给你加分？",
     options: [
-      { title: "声音会哄人，适合暧昧。", scores: { pb: 3, neo: 1 } },
-      { title: "吉他和鼓要有憋着不说的劲。", scores: { tumblr: 3, sleaze: 1 } },
-      { title: "人声糊、词听不清，但就是想开大。", scores: { shoegaze: 3, postrock: 1 } },
-      { title: "低频狠狠干过来，耳朵先麻了。", scores: { altmetal: 3, experimental: 1 } },
-      { title: "前面慢，后面一下顶上来。", scores: { postrock: 3, abstract: 1 } },
+      { title: "会接话，会递台阶，不让场子尬住。", scores: { pb: 3, neo: 2 } },
+      { title: "穿搭能看出花过心思，不是出门随便套一件。", scores: { tumblr: 3, sleaze: 1 } },
+      { title: "不急着表现，慢慢把距离拉近。", scores: { shoegaze: 2, postrock: 2 } },
+      { title: "直奔酒吧club，没喝几杯就开始装疯卖傻。", scores: { altmetal: 3, sleaze: 1 } },
+      { title: "聊的内容偏门，但不是背词条，真能讲出门道。", scores: { experimental: 2, abstract: 2, oldschool: 1 } },
     ],
   },
   {
@@ -257,28 +297,28 @@ const QUESTIONS = [
     text: "你听歌最看重什么？",
     options: [
       { title: "能不能在聊天和约会里派上用场。", scores: { pb: 3, tumblr: 1 } },
-      { title: "顺不顺，别搞得太端着。", scores: { neo: 3, pb: 1 } },
-      { title: "要够怪，不想一耳朵就被猜中。", scores: { experimental: 3, sleaze: 1 } },
+      { title: "顺不顺耳，大众小众无所谓。", scores: { neo: 3, pb: 2 } },
+      { title: "要能听出偏门处理，不想一耳朵就被猜中。", scores: { experimental: 3, sleaze: 1 } },
       { title: "要有后劲，前面慢点没事。", scores: { postrock: 3, abstract: 1 } },
-      { title: "得经得起反复放，别听两次就塌。", scores: { oldschool: 3, altmetal: 1 } },
+      { title: "必须够迪，最好是不爱穿衣服上传的资源。", scores: { altmetal: 2, sleaze: 2, experimental: 1 } },
     ],
   },
   {
     tag: "06 / 15",
-    text: "晚上一个人听歌，你最需要它满足什么？",
+    text: "网恋对象第一次给你发歌，哪种最容易加分？",
     options: [
-      { title: "人声要顺，听完还想继续聊天。", scores: { pb: 4, neo: 2 } },
-      { title: "吉他要明显，歌词要有旧关系的味。", scores: { tumblr: 4, sleaze: 2 } },
-      { title: "人声不用清楚，声音铺开就行。", scores: { shoegaze: 4, postrock: 1 } },
-      { title: "低频要重，音量要大，听完得有劲。", scores: { altmetal: 4, experimental: 1 } },
-      { title: "歌词要密，鼓点要能反复抠。", scores: { abstract: 3, oldschool: 3 } },
+      { title: "发一首旋律很悦耳的口水歌，真能收藏的那种。", scores: { pb: 4, neo: 1 } },
+      { title: "发一首吉他苦歌，明显带点旧关系阴影。", scores: { tumblr: 4, shoegaze: 1 } },
+      { title: "发一首人声糊到听不清词的歌，啥也不解释。", scores: { shoegaze: 3, experimental: 1, postrock: 1 } },
+      { title: "发一首低频直接顶胸口的歌，听完想立刻出门。", scores: { altmetal: 3, sleaze: 2 } },
+      { title: "发一首歌词密到像小作文的歌，还问你听没听懂。", scores: { abstract: 3, oldschool: 2 } },
     ],
   },
   {
     tag: "07 / 15",
     text: "你发听歌截图，通常是哪种操作？",
     options: [
-      { title: "发一首大家都认识、但意思很明显的。", scores: { pb: 3, tumblr: 1 } },
+      { title: "发一首大家都认识、但暗示直给的。", scores: { pb: 3, tumblr: 1 } },
       { title: "封面糊、字小、啥也不解释。", scores: { shoegaze: 2, experimental: 2 } },
       { title: "老封面原图，再补一句“现在没人这么做歌了”。", scores: { oldschool: 3, sleaze: 1 } },
       { title: "发一首十分钟的，没人点赞也无所谓。", scores: { postrock: 3, abstract: 1 } },
@@ -291,19 +331,19 @@ const QUESTIONS = [
     options: [
       { title: "旋律清楚、制作干净、能一直听下去的。", scores: { pb: 3, neo: 3 } },
       { title: "吉他为主，歌词有恋爱和旧事的。", scores: { tumblr: 4, shoegaze: 1 } },
-      { title: "低频重、吉他重、情绪很满的。", scores: { altmetal: 4, sleaze: 1 } },
-      { title: "编曲怪、声音怪、第一遍不好入口的。", scores: { experimental: 4, abstract: 1 } },
-      { title: "老派鼓点、歌词密、能听出技术的。", scores: { oldschool: 4, abstract: 1 } },
+      { title: "低频够狠，全程让人摇起的。", scores: { altmetal: 3, sleaze: 2 } },
+      { title: "编曲拧巴、声音处理反常，第一遍不好入口的。", scores: { experimental: 4, abstract: 1 } },
+      { title: "制作前卫，曲序编排有讲究的。", scores: { experimental: 3, postrock: 1, abstract: 1 } },
     ],
   },
   {
     tag: "09 / 15",
     text: "两个人共用一个音箱，你最受不了对方怎么放？",
     options: [
-      { title: "全放甜歌和热歌，目的性太强。", scores: { abstract: 2, experimental: 2, postrock: 1 } },
-      { title: "全放吉他苦歌，越听越丧。", scores: { neo: 2, oldschool: 2, experimental: 1 } },
-      { title: "全放人声很糊的歌，听半天听不清。", scores: { pb: 2, oldschool: 2, neo: 1 } },
-      { title: "全放老歌，还要边放边讲。", scores: { tumblr: 2, shoegaze: 2, sleaze: 1 } },
+      { title: "全放甜歌和热歌，还动不动瞟你裤裆。", scores: { abstract: 2, experimental: 2, postrock: 1 } },
+      { title: "全放emo和情绪，越听越想跳楼。", scores: { neo: 2, oldschool: 2, experimental: 1 } },
+      { title: "全放人声糊到听不清词的歌，听半天抓不到一句。", scores: { pb: 2, oldschool: 2, neo: 1 } },
+      { title: "全放老歌，还要边放边科普。", scores: { tumblr: 2, shoegaze: 2, sleaze: 1 } },
       { title: "全放怪声和重低音，耳朵很累。", scores: { pb: 2, neo: 2, tumblr: 1 } },
     ],
   },
@@ -312,32 +352,32 @@ const QUESTIONS = [
     text: "你听到一首歌，哪种情况最容易直接切掉？",
     options: [
       { title: "旋律太甜、太会撩，听着目的太明显。", scores: { abstract: 2, experimental: 2, postrock: 1 } },
-      { title: "吉他太苦，歌词全是旧恋爱。", scores: { neo: 2, oldschool: 2, experimental: 1 } },
-      { title: "人声太糊，听半天听不清唱什么。", scores: { pb: 2, oldschool: 2, neo: 1 } },
-      { title: "鼓点太老，开口就有上课味。", scores: { tumblr: 2, shoegaze: 2, sleaze: 1 } },
-      { title: "声音太怪，第一分钟就听不下去。", scores: { pb: 2, neo: 2, tumblr: 1 } },
+      { title: "鼓点太土鳖，开口就是老尼格讲大道理。", scores: { tumblr: 2, shoegaze: 2, sleaze: 1 } },
+      { title: "情情爱爱、死去活来的，纯纯pussy。", scores: { experimental: 2, oldschool: 2, altmetal: 1 } },
+      { title: "人声糊到听不清词，还非装得很有品。", scores: { pb: 2, oldschool: 2, neo: 1 } },
+      { title: "烂大街和弦，胖东来广播BGM水平。", scores: { experimental: 2, sleaze: 2, oldschool: 1 } },
     ],
   },
   {
     tag: "11 / 15",
-    text: "如果只能留一类歌，你留哪类？",
+    text: "如果你从此以后，余生只能听一种流派，你选哪种？",
     options: [
-      { title: "旋律顺、人声清楚，什么时候放都不尴尬。", scores: { pb: 3, neo: 1 } },
-      { title: "吉他多，歌词总在讲旧关系。", scores: { tumblr: 3, sleaze: 1 } },
-      { title: "人声很糊，吉他和合成器铺得很满。", scores: { shoegaze: 3, abstract: 1 } },
-      { title: "声音怪，结构也怪，第一遍不一定好听。", scores: { experimental: 3, altmetal: 1 } },
-      { title: "鼓点硬、歌词密，听完容易想跟人争。", scores: { oldschool: 3, postrock: 1 } },
+      { title: "PB R&B / Urban / 旋律说唱。", scores: { pb: 4, neo: 1 } },
+      { title: "Indie Rock / Post Punk / Indie Sleaze。", scores: { tumblr: 3, sleaze: 3 } },
+      { title: "Shoegaze / Dream Pop / Post Rock。", scores: { shoegaze: 3, postrock: 3 } },
+      { title: "Alt Metal / Experimental Electronic。", scores: { altmetal: 3, experimental: 3 } },
+      { title: "Abstract Rap / Old School Boom Bap。", scores: { abstract: 3, oldschool: 3 } },
     ],
   },
   {
     tag: "12 / 15",
-    text: "你最受不了哪种歌单？",
+    text: "第一次约会，对方放什么歌最加分？",
     options: [
-      { title: "全是太会撩的歌，群发感很重。", scores: { abstract: 2, postrock: 1, experimental: 1 } },
-      { title: "全是怪响，听着很难受。", scores: { pb: 2, neo: 2 } },
-      { title: "全是老专辑，歌没放完人先开始训话。", scores: { tumblr: 2, shoegaze: 1, sleaze: 1 } },
-      { title: "全是慢歌，五分钟过去还没开张。", scores: { altmetal: 2, pb: 1, oldschool: 1 } },
-      { title: "全是吉他苦情歌，分手味太冲。", scores: { neo: 1, experimental: 1, oldschool: 1 } },
+      { title: "放旋律抓耳的人声歌，不尬聊也能继续升温。", scores: { pb: 3, neo: 2 } },
+      { title: "放吉他苦歌，摆明有旧账但还有点会。", scores: { tumblr: 3, sleaze: 1 } },
+      { title: "放人声糊到听不清词的歌，适合少说话多靠近。", scores: { shoegaze: 3, postrock: 1 } },
+      { title: "放低频直接顶胸口的歌，让场子先动起来。", scores: { altmetal: 3, experimental: 1 } },
+      { title: "放老派或abstract，顺便看你能不能接住。", scores: { oldschool: 2, abstract: 2 } },
     ],
   },
   {
@@ -353,24 +393,24 @@ const QUESTIONS = [
   },
   {
     tag: "14 / 15",
-    text: "什么情况会让你立刻收藏一首新歌？",
+    text: "网恋对象第一次约会穿什么会加分？",
     options: [
-      { title: "第一遍就顺，马上能想到发给谁。", scores: { pb: 3, tumblr: 1 } },
-      { title: "歌词全在翻旧账，越听越想看聊天记录。", scores: { tumblr: 3, abstract: 1 } },
-      { title: "歌不闹腾，唱得稳，放哪都不出丑。", scores: { neo: 3, oldschool: 1 } },
-      { title: "一开始有点怪，第二遍突然上头。", scores: { experimental: 3, shoegaze: 1 } },
-      { title: "鼓一进来就想把音量拧大。", scores: { altmetal: 3, postrock: 1 } },
+      { title: "JK+双马尾，萝莉岛幸存者type。", scores: { shoegaze: 2, tumblr: 2, abstract: 1 } },
+      { title: "厚黑加制服，高中肄业的日本女高扮演者。", scores: { sleaze: 2, experimental: 2, altmetal: 1 } },
+      { title: "江浙沪富二代风，一身全黑牌子货加克罗心，真假不详。", scores: { pb: 2, sleaze: 2, altmetal: 1 } },
+      { title: "NPC女大穿搭，虽然土鳖但像个正常人。", scores: { neo: 3, pb: 1, postrock: 1 } },
+      { title: "啥都不穿，户外露出享受者。", scores: { altmetal: 2, experimental: 2, shoegaze: 1 } },
     ],
   },
   {
     tag: "15 / 15",
     text: "最后一题：你最怕别人怎么评价你的歌品？",
     options: [
-      { title: "太会撩了，专门拿歌钓人。", scores: { pb: 3, tumblr: 1 } },
-      { title: "太爱演了，没分手也要装分手。", scores: { tumblr: 2, shoegaze: 2 } },
-      { title: "太平了，完全没有暧昧味。", scores: { neo: 3, postrock: 1 } },
-      { title: "太怪了，故意不让人听懂。", scores: { experimental: 2, abstract: 1, shoegaze: 1 } },
-      { title: "太爱教育人了，随时准备开课。", scores: { oldschool: 3, sleaze: 1 } },
+      { title: "目的性太强，歌单为了人设服务。", scores: { pb: 3, tumblr: 1 } },
+      { title: "太油腻，感觉做到一半都要偷偷把套摘了。", scores: { pb: 3, sleaze: 1 } },
+      { title: "太无趣，完全没有个性。", scores: { neo: 3, postrock: 1 } },
+      { title: "太pussy了，感觉你比我缺老公。", scores: { tumblr: 2, shoegaze: 2, abstract: 1 } },
+      { title: "爹味儿太重，感觉屁股上有老人斑。", scores: { oldschool: 3, abstract: 1 } },
     ],
   },
 ];
@@ -426,6 +466,7 @@ function renderQuestion() {
   progressFill.style.width = `${((currentQuestion + 1) / activeQuestions.length) * 100}%`;
   questionTag.textContent = question.tag;
   questionText.textContent = question.text;
+  questionText.style.setProperty("--question-size", `${getQuestionFontSize(question.text)}px`);
   backBtn.style.visibility = currentQuestion === 0 ? "hidden" : "visible";
 
   options.innerHTML = "";
@@ -442,6 +483,17 @@ function renderQuestion() {
   });
 }
 
+function getQuestionFontSize(text) {
+  const length = [...text].length;
+  const width = window.innerWidth || 390;
+  const desktopSize = Math.round(54 - length * 0.72);
+  const mobileSize = Math.round(38 - length * 0.42);
+  const targetSize = width <= 560 ? mobileSize : desktopSize;
+  const minSize = width <= 560 ? 25 : 32;
+  const maxSize = width <= 560 ? 34 : 52;
+  return Math.max(minSize, Math.min(maxSize, targetSize));
+}
+
 function selectOption(optionIndex) {
   if (isAdvancing) return;
   isAdvancing = true;
@@ -453,7 +505,7 @@ function selectOption(optionIndex) {
   };
 
   const selectedButton = options.children[optionIndex];
-  selectedButton?.classList.add("selected");
+  selectedButton?.classList.add("selected", "option-picked");
 
   window.setTimeout(() => {
     if (currentQuestion < activeQuestions.length - 1) {
@@ -465,7 +517,7 @@ function selectOption(optionIndex) {
 
     isAdvancing = false;
     showResult();
-  }, 160);
+  }, 220);
 }
 
 function goBack() {
@@ -485,9 +537,10 @@ function showResult() {
   const scores = Object.fromEntries(TYPE_ORDER.map((key) => [key, 0]));
   const maxScores = getMaxScores();
 
-  answers.forEach((answer) => {
+  answers.forEach((answer, index) => {
+    const weight = QUESTION_WEIGHTS[index] || 1;
     Object.entries(answer.scores).forEach(([key, value]) => {
-      scores[key] += value;
+      scores[key] += value * weight;
     });
   });
 
@@ -513,7 +566,8 @@ function showResult() {
   document.querySelector("#subType").textContent = sub.name;
   document.querySelector("#mainCopy").textContent = main.copy;
   document.querySelector("#subCopy").textContent = sub.subNote;
-  document.querySelector("#tensionLevel").textContent = `Lv.${main.level} / 10`;
+  document.querySelector("#tensionLevel").textContent = `Lv.${main.level}`;
+  renderRadar(mainKey, subKey);
   document.querySelector("#bestPartner").textContent = bestPartner.name;
   document.querySelector("#partnerCopy").textContent = RELATION_COPY[mainKey][bestPartnerKey];
   document.querySelector("#enemyType").textContent = enemy.name;
@@ -526,8 +580,190 @@ function showResult() {
   quizScreen.classList.add("hidden");
   resultScreen.classList.remove("hidden");
   resultScreen.classList.add("screen-enter");
+  animateResultSections();
   window.setTimeout(() => resultScreen.classList.remove("screen-enter"), 420);
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderRadar(mainKey, subKey) {
+  const chart = document.querySelector("#radarChart");
+  const combo = document.querySelector("#radarCombo");
+  const tip = document.querySelector("#radarTip");
+  if (!chart) return;
+
+  const profile = getMixedRadarProfile(mainKey, subKey);
+  const center = 120;
+  const radius = 70;
+  const labelRadius = 96;
+  const total = RADAR_LABELS.length;
+  const createSvgElement = (tag) => document.createElementNS("http://www.w3.org/2000/svg", tag);
+  const pointAt = (index, value, baseRadius = radius) => {
+    const angle = -Math.PI / 2 + (Math.PI * 2 * index) / total;
+    const distance = baseRadius * (value / 10);
+    return {
+      x: center + Math.cos(angle) * distance,
+      y: center + Math.sin(angle) * distance,
+    };
+  };
+  const polygonPoints = (values, baseRadius = radius) =>
+    values
+      .map((value, index) => {
+        const point = pointAt(index, value, baseRadius);
+        return `${point.x.toFixed(2)},${point.y.toFixed(2)}`;
+      })
+      .join(" ");
+
+  chart.innerHTML = "";
+  if (tip) {
+    tip.classList.remove("show");
+    tip.textContent = "";
+  }
+  chart.classList.remove("radar-pop");
+  void chart.offsetWidth;
+  chart.classList.add("radar-pop");
+
+  const burst = createSvgElement("circle");
+  burst.setAttribute("cx", center);
+  burst.setAttribute("cy", center);
+  burst.setAttribute("r", "4");
+  burst.setAttribute("class", "radar-burst");
+  chart.appendChild(burst);
+
+  [2, 4, 6, 8, 10].forEach((level) => {
+    const grid = createSvgElement("polygon");
+    grid.setAttribute("points", polygonPoints(Array(total).fill(level)));
+    grid.setAttribute("class", "radar-grid-line");
+    chart.appendChild(grid);
+  });
+
+  RADAR_LABELS.forEach(([, label], index) => {
+    const axisEnd = pointAt(index, 10);
+    const axis = createSvgElement("line");
+    axis.setAttribute("x1", center);
+    axis.setAttribute("y1", center);
+    axis.setAttribute("x2", axisEnd.x.toFixed(2));
+    axis.setAttribute("y2", axisEnd.y.toFixed(2));
+    axis.setAttribute("class", "radar-axis");
+    chart.appendChild(axis);
+
+    const labelPoint = pointAt(index, 10, labelRadius);
+    const text = createSvgElement("text");
+    text.setAttribute("x", labelPoint.x.toFixed(2));
+    text.setAttribute("y", labelPoint.y.toFixed(2));
+    text.setAttribute("class", "radar-label");
+    text.setAttribute("text-anchor", getTextAnchor(index));
+    text.setAttribute("dominant-baseline", "middle");
+    text.textContent = label;
+    chart.appendChild(text);
+  });
+
+  const values = RADAR_LABELS.map(([key]) => profile[key]);
+  const area = createSvgElement("polygon");
+  area.setAttribute("points", polygonPoints(values));
+  area.setAttribute("class", "radar-area");
+  chart.appendChild(area);
+
+  values.forEach((value, index) => {
+    const point = pointAt(index, value);
+    const [, label] = RADAR_LABELS[index];
+    const group = createSvgElement("g");
+    group.setAttribute("class", "radar-node");
+    group.setAttribute("tabindex", "0");
+    group.setAttribute("role", "button");
+    group.setAttribute("aria-label", `${label}${getRadarRating(value)}级`);
+
+    const halo = createSvgElement("circle");
+    halo.setAttribute("cx", point.x.toFixed(2));
+    halo.setAttribute("cy", point.y.toFixed(2));
+    halo.setAttribute("r", "9");
+    halo.setAttribute("class", "radar-halo");
+
+    const dot = createSvgElement("circle");
+    dot.setAttribute("cx", point.x.toFixed(2));
+    dot.setAttribute("cy", point.y.toFixed(2));
+    dot.setAttribute("r", "3.8");
+    dot.setAttribute("class", "radar-dot");
+
+    group.appendChild(halo);
+    group.appendChild(dot);
+    group.addEventListener("click", () => showRadarTip(group, label, value, point));
+    group.addEventListener("mouseenter", () => showRadarTip(group, label, value, point));
+    group.addEventListener("mouseleave", hideRadarTip);
+    group.addEventListener("focus", () => showRadarTip(group, label, value, point));
+    group.addEventListener("blur", hideRadarTip);
+    chart.appendChild(group);
+  });
+
+  if (combo) {
+    const fullText = `主类型：${TYPES[mainKey].name}\n副类型：${TYPES[subKey].name}`;
+    combo.innerHTML = `<span>主 ${getShortTypeName(TYPES[mainKey].name)}</span><span>副 ${getShortTypeName(TYPES[subKey].name)}</span><em>${fullText}</em>`;
+    combo.setAttribute("aria-label", fullText);
+    combo.onclick = () => combo.classList.toggle("show");
+    combo.onmouseenter = () => combo.classList.add("show");
+    combo.onmouseleave = () => combo.classList.remove("show");
+    combo.onblur = () => combo.classList.remove("show");
+  }
+}
+
+function getShortTypeName(name) {
+  return name.split("/")[0].trim();
+}
+
+function showRadarTip(activeNode, label, value, point) {
+  const chart = document.querySelector("#radarChart");
+  const tip = document.querySelector("#radarTip");
+  if (!chart || !tip) return;
+
+  chart.querySelectorAll(".radar-node").forEach((node) => node.classList.remove("active"));
+  activeNode.classList.add("active");
+
+  const rating = getRadarRating(value);
+  tip.textContent = `${label}：${rating}级`;
+  tip.style.left = `${(point.x / 240) * 100}%`;
+  tip.style.top = `${(point.y / 240) * 100}%`;
+  tip.classList.remove("show");
+  void tip.offsetWidth;
+  tip.classList.add("show");
+}
+
+function hideRadarTip() {
+  const chart = document.querySelector("#radarChart");
+  const tip = document.querySelector("#radarTip");
+  if (!chart || !tip) return;
+
+  chart.querySelectorAll(".radar-node").forEach((node) => node.classList.remove("active"));
+  tip.classList.remove("show");
+}
+
+function getRadarRating(value) {
+  if (value >= 9) return "S";
+  if (value >= 7) return "A";
+  if (value >= 5) return "B";
+  if (value >= 3) return "C";
+  return "D";
+}
+
+function getMixedRadarProfile(mainKey, subKey) {
+  const main = RADAR_PROFILES[mainKey];
+  const sub = RADAR_PROFILES[subKey];
+  return Object.fromEntries(
+    RADAR_LABELS.map(([key]) => [key, Math.round(main[key] * 0.68 + sub[key] * 0.32)]),
+  );
+}
+
+function getTextAnchor(index) {
+  if (index === 0 || index === 3) return "middle";
+  return index < 3 ? "start" : "end";
+}
+
+function animateResultSections() {
+  const sections = resultScreen.querySelectorAll(".result-section");
+  sections.forEach((section, index) => {
+    section.classList.remove("pop-out");
+    section.style.animationDelay = `${index * 90}ms`;
+    void section.offsetWidth;
+    section.classList.add("pop-out");
+  });
 }
 
 function pickRelatedType(candidates, scores) {
@@ -542,12 +778,13 @@ function pickRelatedType(candidates, scores) {
 function getMaxScores() {
   const maxScores = Object.fromEntries(TYPE_ORDER.map((key) => [key, 0]));
 
-  QUESTIONS.forEach((question) => {
+  QUESTIONS.forEach((question, questionIndex) => {
+    const weight = QUESTION_WEIGHTS[questionIndex] || 1;
     TYPE_ORDER.forEach((key) => {
       const bestOptionScore = Math.max(
         ...question.options.map((option) => option.scores[key] || 0),
       );
-      maxScores[key] += bestOptionScore;
+      maxScores[key] += bestOptionScore * weight;
     });
   });
 
